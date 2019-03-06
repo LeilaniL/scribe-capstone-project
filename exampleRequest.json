@@ -1,0 +1,10 @@
+{
+    "audio": {
+        "content": "//8CAP//AAD//wIA/v8C/AgD+/wIA/////wIA/f8EAP3/....dummy.../wMA/f8DAP7/AAAAAAAAAQD//wA"
+    },
+    "config": {
+        "encoding": "LINEAR16",
+        "sampleRateHertz": 16000,
+        "languageCode": "en-US"
+    }
+}
