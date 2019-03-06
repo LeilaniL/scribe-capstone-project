@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import testFunction from '../getTranscript';
+import getTranscript from '../getTranscript';
 
 var transcriptStyles = {
     backgroundColor: 'lightgray',
@@ -14,7 +14,7 @@ class TranscriptionBody extends Component {
     render() {
         return (
             <div style={transcriptStyles}>
-                <button onClick={testFunction} id="test" className="btn-lg btn-danger">Get Transcript</button>
+                <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button>
                 <br />
                 <p>Lorem ipsum ipsum yo</p>
             </div>

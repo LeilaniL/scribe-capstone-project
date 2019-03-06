@@ -1,8 +1,10 @@
 import apikey from './apikey';
+// TODO fix audioData to get rid of readFileSync not a function error
+// import audioData from './audioData';
 
-function testFunction() {
-    let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
+function getTranscript() {
     // add Google Cloud project API key to src/apikey.js
+    let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
     let config = {
         "encoding": "LINEAR16",
         "sampleRateHertz": 16000,
@@ -23,4 +25,4 @@ function testFunction() {
     }).then(res => res.json()).then(response => console.log('Success!', JSON.stringify(response))).catch(error => console.error('Error: ', error));
     alert("I was clicked");
 }
-export default testFunction;
+export default getTranscript;
