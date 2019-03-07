@@ -3,7 +3,8 @@ import './App.css';
 import TranscriptionBody from './TranscriptionBody';
 
 var headerStyle = {
-  textAlign: "center"
+  textAlign: "center",
+  color: "#8c42ab"
 }
 class App extends Component {
   render() {
@@ -12,7 +13,7 @@ class App extends Component {
         <header className="App-header">
           <title>Scribe</title>
         </header>
-        <h1 style={headerStyle}>Transcript</h1>
+        <h1 style={headerStyle}>Scribe App</h1>
         <TranscriptionBody />
       </div>
     );
