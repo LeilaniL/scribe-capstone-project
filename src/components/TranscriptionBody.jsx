@@ -14,9 +14,12 @@ class TranscriptionBody extends Component {
     render() {
         return (
             <div style={transcriptStyles}>
-                <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button>
+                <div class="paper">
+                    <p>Lorem ipsum ipsum yo</p>
+                </div>
+                {/* <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button> */}
+                <button onClick={getTranscript} class="green-button"> Transcribe</button>
                 <br />
-                <p>Lorem ipsum ipsum yo</p>
             </div>
         );
     }

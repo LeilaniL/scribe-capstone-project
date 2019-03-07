@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import TranscriptionBody from './TranscriptionBody';
 
+var headerStyle = {
+  textAlign: "center"
+}
 class App extends Component {
   render() {
     return (
@@ -9,7 +12,7 @@ class App extends Component {
         <header className="App-header">
           <title>Scribe</title>
         </header>
-        <h1>Transcript</h1>
+        <h1 style={headerStyle}>Transcript</h1>
         <TranscriptionBody />
       </div>
     );
