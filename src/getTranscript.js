@@ -1,6 +1,4 @@
 import apikey from './apikey';
-// TODO fix audioData to get rid of readFileSync not a function error
-// import audioData from './audioData';
 
 function getTranscript() {
     // add Google Cloud project API key to src/apikey.js

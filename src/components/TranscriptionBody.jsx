@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import getTranscript from '../getTranscript';
-// import audioData from '../audioData';
+import encodeAudio from '../encodeAudio';
 
 var transcriptStyles = {
     backgroundColor: 'lightgray',
-    width: '33%',
+    minWidth: '33%',
     margin: 'auto',
     padding: '1em',
     borderRadius: '3%'
 }
 
-let event;
 class TranscriptionBody extends Component {
     // state = {  }
     audioData(event) {
@@ -31,7 +30,7 @@ class TranscriptionBody extends Component {
                     <p>Lorem ipsum ipsum yo</p>
                 </div>
                 {/* <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button> */}
-                <input type="file" id="audioUpload" onChange={(event) => { this.audioData(event) }}></input>
+                <input type="file" id="audioUpload" onChange={(event) => { encodeAudio(event) }}></input>
                 <button className="green-button"> Transcribe</button>
                 <br />
             </div>
