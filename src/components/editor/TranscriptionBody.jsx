@@ -13,15 +13,14 @@ function encodeAudio(event) {
   reader.readAsDataURL(file);
   reader.onload = file => {
     // separate base64 from result string
-    encoded = reader.result.split(",");
-    console.log("I am result split: ", encoded[1]);
+    encoded = reader.result.split(",")[1];
+    console.log("I am result split: ", encoded);
   };
 }
 
 // Send encoded audio data to Google API when button clicked
 
-function getTranscript(encoded) {
-  console.log("I am encoded inside getTranscript", encoded);
+function getTranscript() {
   // add Google Cloud project API key to src/apikey.js
   let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
   let config = {
@@ -37,7 +36,6 @@ function getTranscript(encoded) {
     audio: audio,
     config: config
   };
-
   fetch(url, {
     method: "POST",
     body: JSON.stringify(requestBody)
@@ -45,7 +43,6 @@ function getTranscript(encoded) {
     .then(res => res.json())
     .then(response => console.log("Success!", JSON.stringify(response)))
     .catch(error => console.error("Error: ", error));
-  alert("I was clicked");
 }
 
 // styling
