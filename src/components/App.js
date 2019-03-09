@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
-import TranscriptionBody from './TranscriptionBody';
+import React, { Component } from "react";
+import "./App.css";
+import TranscriptionBody from "./TranscriptionBody";
+import EditorWorkspace from "./EditorWorkspace";
 
 var headerStyle = {
   textAlign: "center",
   color: "#8c42ab"
-}
+};
 class App extends Component {
   render() {
     return (
@@ -14,7 +15,7 @@ class App extends Component {
           <title>Scribe</title>
         </header>
         <h1 style={headerStyle}>Scribe App</h1>
-        <TranscriptionBody />
+        <EditorWorkspace />
       </div>
     );
   }
