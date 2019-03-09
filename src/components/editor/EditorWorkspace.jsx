@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TranscriptionBody from "./TranscriptionBody";
-import EditorMenu from "./editor-menu/EditorMenu";
+import EditorMenu from "./EditorMenu";
 // let transcriptStyles = {
 //   display: "inline-block",
 //   float: "right"

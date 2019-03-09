@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import TranscriptionBody from "./TranscriptionBody";
-import EditorWorkspace from "./EditorWorkspace";
+import EditorWorkspace from "./editor/EditorWorkspace";
 
 var headerStyle = {
   textAlign: "center",
