@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import apikey from "../../apikey";
 
 // Placeholder for where transcribed audio will display
-let transcriptText = "Your transcript will appear here";
+// let transcriptText = "Your transcript will appear here";
 
 // Encode audio file when user selects one
 let encoded = null;
@@ -24,32 +24,6 @@ function encodeAudio(event) {
 // Send encoded audio data to Google API when button clicked
 
 // transcriptText = { "results": [{ "alternatives": [{ "transcript": "you are old father William the young man said and your hair has become very white that you incessantly stand up on your head you think at your age this is right", "confidence": 0.9262686 }] }] };
-function getTranscript() {
-  // console.log(transcriptText.results[0].alternatives[0].transcript);
-  // add Google Cloud project API key to src/apikey.js
-  let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
-  let config = {
-    encoding: "LINEAR16",
-    sampleRateHertz: 16000,
-    languageCode: "en-US"
-  };
-  let audio = {
-    content: encoded
-  };
-  let requestBody = {
-    audio: audio,
-    config: config
-  };
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify(requestBody)
-  })
-    .then(res => res.json())
-    .then(response => { transcriptText = (response.results[0].alternatives[0].transcript); console.log(transcriptText) })
-    // .then(response => JSON.stringify(response))
-    // .then(stringified => { transcriptText = stringified; console.log(transcriptText["results"]); return transcriptText })
-    .catch(error => console.error("Error: ", error))
-}
 
 // styling
 let fileUploadStyles = {
@@ -66,10 +40,46 @@ let transcriptStyles = {
 };
 
 class TranscriptionBody extends Component {
-  state = {
-    audioWasEncoded: "false",
-    base64Data: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      // audioWasEncoded: "false",
+      // base64Data: ""
+      transcriptText: "Your transcript will appear here"
+    };
+    this.getTranscript = this.getTranscript.bind(this);
+  }
+  getTranscript() {
+    // console.log(transcriptText.results[0].alternatives[0].transcript);
+    // add Google Cloud project API key to src/apikey.js
+    let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
+    let config = {
+      encoding: "LINEAR16",
+      sampleRateHertz: 16000,
+      languageCode: "en-US"
+    };
+    let audio = {
+      content: encoded
+    };
+    let requestBody = {
+      audio: audio,
+      config: config
+    };
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(requestBody)
+    })
+      .then(res => res.json())
+      .then(response => {
+        console.log(this);
+        let newText = (response.results[0].alternatives[0].transcript); console.log(newText);
+        this.setState({ transcriptText: newText })
+      })
+      // .then(response => JSON.stringify(response))
+      // .then(stringified => { transcriptText = stringified; console.log(transcriptText["results"]); return transcriptText })
+      .catch(error => console.error("Error: ", error))
+  }
+
   render() {
     return (
       <div style={transcriptStyles} className="with-shadow">
@@ -81,13 +91,13 @@ class TranscriptionBody extends Component {
             encodeAudio(event);
           }}
         />
-        <button className="green-button buttonStyles" onClick={getTranscript}>
+        <button className="green-button buttonStyles" onClick={this.getTranscript}>
           {" "}
           Transcribe
         </button>
         <div className="paper">
           <p>
-            {transcriptText}
+            {this.state.transcriptText}
           </p>
         </div>
         {/* <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button> */}
