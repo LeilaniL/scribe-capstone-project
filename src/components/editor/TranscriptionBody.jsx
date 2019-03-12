@@ -32,9 +32,8 @@ let transcriptStyles = {
   display: "inline-block",
   float: "right",
   marginRight: "1em",
-  padding: "1em"
+  padding: "1em",
 };
-
 class TranscriptionBody extends Component {
   constructor(props) {
     super(props);
@@ -80,6 +79,7 @@ class TranscriptionBody extends Component {
   render() {
     return (
       <div style={transcriptStyles} className="with-shadow">
+        <h4>Please select an audio file (.wav preferred) under 1 min in length:</h4>
         <input
           type="file"
           id="audioUpload"

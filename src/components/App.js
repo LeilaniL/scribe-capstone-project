@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import EditorWorkspace from "./editor/EditorWorkspace";
+import Footer from "./Footer";
 
 var headerStyle = {
   textAlign: "center",
@@ -15,6 +16,8 @@ class App extends Component {
         </header>
         <h1 style={headerStyle}>Scribe App</h1>
         <EditorWorkspace />
+        <br />
+        <Footer />
       </div>
     );
   }

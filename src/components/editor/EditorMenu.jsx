@@ -6,11 +6,13 @@ let menuStyles = {
   marginLeft: "3em",
   padding: "1em"
 };
-// let buttonStyles = {
-//   margin: "auto",
-//   marginTop: "1em"
-// };
-
+// let wipStyles = {
+//   backgroundColor: "black",
+//   // zIndex: 1
+// }
+function wipAlert() {
+  alert("Hi! I'm a useless button currently. This site is still under construction, but thanks for visiting!");
+}
 class EditorMenu extends Component {
   state = {
     highlightColor: "null"
@@ -19,11 +21,12 @@ class EditorMenu extends Component {
     return (
       <div className="with-shadow" style={menuStyles}>
         <h4>Select highlighter color:</h4>
-        <button className="blue-button buttonStyles"></button>
-        <button className="red-button buttonStyles"></button>
-        <button className="green-button buttonStyles"></button>
-        <button className="rounded-button buttonStyles">+</button>
+        <button className="blue-button buttonStyles" onClick={wipAlert}></button>
+        <button className="red-button buttonStyles" onClick={wipAlert}></button>
+        <button className="green-button buttonStyles" onClick={wipAlert}></button>
+        <button className="rounded-button buttonStyles" onClick={wipAlert}>+</button>
       </div>
+
     );
   }
 }
