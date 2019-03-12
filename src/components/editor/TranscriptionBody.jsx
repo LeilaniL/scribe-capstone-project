@@ -56,7 +56,8 @@ class TranscriptionBody extends Component {
     let config = {
       encoding: "LINEAR16",
       sampleRateHertz: 16000,
-      languageCode: "en-US"
+      languageCode: "en-US",
+      enableAutomaticPunctuation: true
     };
     let audio = {
       content: encoded
@@ -76,7 +77,6 @@ class TranscriptionBody extends Component {
         this.setState({ transcriptText: newText })
       })
       // .then(response => JSON.stringify(response))
-      // .then(stringified => { transcriptText = stringified; console.log(transcriptText["results"]); return transcriptText })
       .catch(error => console.error("Error: ", error))
   }
 
@@ -96,11 +96,9 @@ class TranscriptionBody extends Component {
           Transcribe
         </button>
         <div className="paper">
-          <p>
-            {this.state.transcriptText}
-          </p>
+          {/* <input type="text" placeholder={this.state.transcriptText}></input> */}
+          <p>{this.state.transcriptText}</p>
         </div>
-        {/* <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button> */}
         <br />
       </div>
     );
