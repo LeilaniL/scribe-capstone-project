@@ -19,9 +19,9 @@ class EditorMenu extends Component {
     return (
       <div className="with-shadow" style={menuStyles}>
         <h4>Select highlighter color:</h4>
-        <button className="blue-button buttonStyles">Select</button>
-        <button className="red-button buttonStyles">Select</button>
-        <button className="green-button buttonStyles">Select</button>
+        <button className="blue-button buttonStyles"></button>
+        <button className="red-button buttonStyles"></button>
+        <button className="green-button buttonStyles"></button>
         <button className="rounded-button buttonStyles">+</button>
       </div>
     );

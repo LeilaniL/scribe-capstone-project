@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import getTranscript from '../getTranscript';
 // import encodeAudio from '../getTranscript';
 import apikey from "../../apikey";
+import LoadingIcon from "../LoadingIcon";
 
 // Placeholder for where transcribed audio will display
 // let transcriptText = "Your transcript will appear here";
@@ -45,13 +46,14 @@ class TranscriptionBody extends Component {
     this.state = {
       // audioWasEncoded: "false",
       // base64Data: ""
+      loading: false,
       transcriptText: "Your transcript will appear here"
     };
     this.getTranscript = this.getTranscript.bind(this);
   }
   getTranscript() {
-    // console.log(transcriptText.results[0].alternatives[0].transcript);
     // add Google Cloud project API key to src/apikey.js
+    this.setState({ loading: true });
     let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
     let config = {
       encoding: "LINEAR16",
@@ -72,7 +74,7 @@ class TranscriptionBody extends Component {
     })
       .then(res => res.json())
       .then(response => {
-        console.log(this);
+        this.setState({ loading: false });
         let newText = (response.results[0].alternatives[0].transcript); console.log(newText);
         this.setState({ transcriptText: newText })
       })
@@ -97,7 +99,8 @@ class TranscriptionBody extends Component {
         </button>
         <div className="paper">
           {/* <input type="text" placeholder={this.state.transcriptText}></input> */}
-          <p>{this.state.transcriptText}</p>
+
+          {this.state.loading ? <LoadingIcon /> : <p>{this.state.transcriptText}</p>}
         </div>
         <br />
       </div>
