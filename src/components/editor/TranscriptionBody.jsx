@@ -3,8 +3,11 @@ import React, { Component } from "react";
 // import encodeAudio from '../getTranscript';
 import apikey from "../../apikey";
 
+// Placeholder for where transcribed audio will display
+let transcriptText = "Your transcript will appear here";
+
 // Encode audio file when user selects one
-var encoded;
+let encoded = null;
 function encodeAudio(event) {
   // grab user-selected file
   let reader = new FileReader();
@@ -20,7 +23,9 @@ function encodeAudio(event) {
 
 // Send encoded audio data to Google API when button clicked
 
+// transcriptText = { "results": [{ "alternatives": [{ "transcript": "you are old father William the young man said and your hair has become very white that you incessantly stand up on your head you think at your age this is right", "confidence": 0.9262686 }] }] };
 function getTranscript() {
+  // console.log(transcriptText.results[0].alternatives[0].transcript);
   // add Google Cloud project API key to src/apikey.js
   let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
   let config = {
@@ -30,7 +35,6 @@ function getTranscript() {
   };
   let audio = {
     content: encoded
-    // audioData = base64 encoded file (can get from https://www.giftofspeed.com/base64-encoder/)
   };
   let requestBody = {
     audio: audio,
@@ -41,8 +45,10 @@ function getTranscript() {
     body: JSON.stringify(requestBody)
   })
     .then(res => res.json())
-    .then(response => console.log("Success!", JSON.stringify(response)))
-    .catch(error => console.error("Error: ", error));
+    .then(response => { transcriptText = (response.results[0].alternatives[0].transcript); console.log(transcriptText) })
+    // .then(response => JSON.stringify(response))
+    // .then(stringified => { transcriptText = stringified; console.log(transcriptText["results"]); return transcriptText })
+    .catch(error => console.error("Error: ", error))
 }
 
 // styling
@@ -81,20 +87,7 @@ class TranscriptionBody extends Component {
         </button>
         <div className="paper">
           <p>
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est,
-            qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-            sed quia non numquam eius modi tempora incidunt ut labore et dolore
-            magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
-            nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-            aliquid ex ea commodi consequatur? Quis autem vel eum iure
-            reprehenderit qui in ea voluptate velit esse quam nihil molestiae
-            consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla
-            pariatur?"
+            {transcriptText}
           </p>
         </div>
         {/* <button onClick={getTranscript} id="test" className="btn-lg btn-danger">Get Transcript</button> */}
