@@ -21,11 +21,6 @@ function encodeAudio(event) {
     console.log("I am result split: ", encoded);
   };
 }
-
-// Send encoded audio data to Google API when button clicked
-
-// transcriptText = { "results": [{ "alternatives": [{ "transcript": "you are old father William the young man said and your hair has become very white that you incessantly stand up on your head you think at your age this is right", "confidence": 0.9262686 }] }] };
-
 // styling
 let fileUploadStyles = {
   display: "block",
@@ -51,6 +46,7 @@ class TranscriptionBody extends Component {
     };
     this.getTranscript = this.getTranscript.bind(this);
   }
+  // Send encoded audio data to Google API when button clicked
   getTranscript() {
     // add Google Cloud project API key to src/apikey.js
     this.setState({ loading: true });
@@ -78,7 +74,6 @@ class TranscriptionBody extends Component {
         let newText = (response.results[0].alternatives[0].transcript); console.log(newText);
         this.setState({ transcriptText: newText })
       })
-      // .then(response => JSON.stringify(response))
       .catch(error => console.error("Error: ", error))
   }
 
@@ -94,7 +89,6 @@ class TranscriptionBody extends Component {
           }}
         />
         <button className="green-button buttonStyles" onClick={this.getTranscript}>
-          {" "}
           Transcribe
         </button>
         <div className="paper">
