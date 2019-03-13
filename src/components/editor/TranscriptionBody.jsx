@@ -3,9 +3,7 @@ import React, { Component } from "react";
 // import encodeAudio from '../getTranscript';
 import apikey from "../../apikey";
 import LoadingIcon from "../LoadingIcon";
-
-// Placeholder for where transcribed audio will display
-// let transcriptText = "Your transcript will appear here";
+import CopyButton from "./CopyButton";
 
 // Encode audio file when user selects one
 let encoded = null;
@@ -34,6 +32,23 @@ let transcriptStyles = {
   marginRight: "1em",
   padding: "1em",
 };
+
+// TODO remove CopyButton to own component and lift state to EditorWorkspace
+function copyAll() {
+  let copyText = document.getElementById("transcript");
+  copyText.select();
+  document.execCommand("copy");
+
+  let tooltip = document.getElementById("copyTooltip");
+  tooltip.innerHTML = "Copy all to clipboard"
+}
+
+function outFunc() {
+  let tooltip = document.getElementById("copyTooltip");
+  tooltip.innerHTML = "Copied to clipboard";
+}
+// end of CopyButton
+
 class TranscriptionBody extends Component {
   constructor(props) {
     super(props);
@@ -92,9 +107,11 @@ class TranscriptionBody extends Component {
           Transcribe
         </button>
         <div className="paper">
-          {/* <input type="text" placeholder={this.state.transcriptText}></input> */}
-
-          {this.state.loading ? <LoadingIcon /> : <p>{this.state.transcriptText}</p>}
+          {/* <input  id="transcript"type="text" placeholder={this.state.transcriptText}></input> */}
+          {/* <p id="transcript">To be or not to be that is the question Whether tis nobler in the mind to suffer the slings and arrows of Outrageous Fortune or to take arms against a sea of troubles and by opposing end them to die to sleep no more and by a sleep to say we end the heartache and a thousand natural shocks that flesh is heir to does a consummation devoutly to be wished to die to sleep to sleep perchance to Dream by there's the rub for in that sleep of death What Dreams May Come when we have shuffled off this Mortal coil must give us pause. There's the respect that makes Calamity of so long life.</p> */}
+          {/* <button onClick={copyAll}>Copy All</button> */}
+          {this.state.loading ? <LoadingIcon /> : <p id="transcript">{this.state.transcriptText}</p>}
+          {/* <CopyButton /> */}
         </div>
         <br />
       </div>
