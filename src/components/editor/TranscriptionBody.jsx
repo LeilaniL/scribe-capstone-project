@@ -10,14 +10,18 @@ let encoded = null;
 function encodeAudio(event) {
   // grab user-selected file
   let reader = new FileReader();
-  const file = event.target.files[0];
-  // convert file to string including base64
-  reader.readAsDataURL(file);
-  reader.onload = file => {
-    // separate base64 from result string
-    encoded = reader.result.split(",")[1];
-    console.log("I am result split: ", encoded);
-  };
+  try {
+    const file = event.target.files[0];
+    // convert file to string including base64
+    reader.readAsDataURL(file);
+    reader.onload = file => {
+      // separate base64 from result string
+      encoded = reader.result.split(",")[1];
+    };
+  }
+  catch {
+    alert("Uh oh, an error occurred. Please try again. Did you select a .wav file less than a minute long?");
+  }
 }
 // styling
 let fileUploadStyles = {
@@ -34,6 +38,7 @@ let transcriptStyles = {
 };
 
 // TODO remove CopyButton to own component and lift state to EditorWorkspace
+//TODO replace with refs and lifecycle methods
 function copyAll() {
   let copyText = document.getElementById("transcript");
   copyText.select();
@@ -85,10 +90,14 @@ class TranscriptionBody extends Component {
       .then(res => res.json())
       .then(response => {
         this.setState({ loading: false });
-        let newText = (response.results[0].alternatives[0].transcript); console.log(newText);
+        let newText = (response.results[0].alternatives[0].transcript);
         this.setState({ transcriptText: newText })
       })
-      .catch(error => console.error("Error: ", error))
+      .catch(error => {
+        console.error("Error: ", error);
+        let newText = "An error occurred. Please select another file.";
+        this.setState({transcriptText: newText})
+      })
   }
 
   render() {
