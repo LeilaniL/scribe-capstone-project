@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import apikey from "../../apikey";
 import LoadingIcon from "../LoadingIcon";
 import CopyButton from "./CopyButton";
+import "./TranscriptionBody.css";
 
 // Encode audio file when user selects one
 let encoded = null;
@@ -17,6 +18,7 @@ function encodeAudio(event) {
     reader.onload = file => {
       // separate base64 from result string
       encoded = reader.result.split(",")[1];
+      console.log(encoded);
     };
   }
   catch {
@@ -38,19 +40,16 @@ let transcriptStyles = {
 };
 
 // TODO remove CopyButton to own component and lift state to EditorWorkspace
-//TODO replace with refs and lifecycle methods
 function copyAll() {
-  let copyText = document.getElementById("transcript");
-  copyText.select();
+  document.getElementById("transcript").select();
   document.execCommand("copy");
-
   let tooltip = document.getElementById("copyTooltip");
-  tooltip.innerHTML = "Copy all to clipboard"
+  tooltip.innerHTML = "Copied to clipboard"
 }
 
 function outFunc() {
   let tooltip = document.getElementById("copyTooltip");
-  tooltip.innerHTML = "Copied to clipboard";
+  tooltip.innerHTML = "Copy all to clipboard";
 }
 // end of CopyButton
 
@@ -89,6 +88,7 @@ class TranscriptionBody extends Component {
     })
       .then(res => res.json())
       .then(response => {
+        console.log(response);
         this.setState({ loading: false });
         let newText = (response.results[0].alternatives[0].transcript);
         this.setState({ transcriptText: newText })
@@ -117,9 +117,14 @@ class TranscriptionBody extends Component {
         </button>
         <div className="paper">
           {/* <input  id="transcript"type="text" placeholder={this.state.transcriptText}></input> */}
-          {/* <p id="transcript">To be or not to be that is the question Whether tis nobler in the mind to suffer the slings and arrows of Outrageous Fortune or to take arms against a sea of troubles and by opposing end them to die to sleep no more and by a sleep to say we end the heartache and a thousand natural shocks that flesh is heir to does a consummation devoutly to be wished to die to sleep to sleep perchance to Dream by there's the rub for in that sleep of death What Dreams May Come when we have shuffled off this Mortal coil must give us pause. There's the respect that makes Calamity of so long life.</p> */}
-          {/* <button onClick={copyAll}>Copy All</button> */}
-          {this.state.loading ? <LoadingIcon /> : <p id="transcript">{this.state.transcriptText}</p>}
+          {this.state.loading ? <LoadingIcon /> :  <p id="transcript" cols="125">{this.state.transcriptText}</p>}
+         
+          <br/>
+          <div className="tooltip">
+            <button onClick={copyAll} onMouseOut={outFunc}>Copy All</button>
+            <span className="tooltiptext" id="copyTooltip"></span>
+          </div>
+          {/* {this.state.loading ? <LoadingIcon /> : <p id="transcript">{this.state.transcriptText}</p>} */}
           {/* <CopyButton /> */}
         </div>
         <br />
