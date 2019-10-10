@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-// import getTranscript from '../getTranscript';
-// import encodeAudio from '../getTranscript';
-import apikey from "../../apikey";
-import LoadingIcon from "../LoadingIcon";
-import CopyButton from "./CopyButton";
-import "./TranscriptionBody.css";
+import React, { Component } from 'react';
+import apikey from '../../apikey';
+import LoadingIcon from '../LoadingIcon';
+import CopyButton from './CopyButton';
+import './TranscriptionBody.css';
 
 // Encode audio file when user selects one
 let encoded = null;
@@ -17,39 +15,40 @@ function encodeAudio(event) {
     reader.readAsDataURL(file);
     reader.onload = file => {
       // separate base64 from result string
-      encoded = reader.result.split(",")[1];
+      encoded = reader.result.split(',')[1];
       console.log(encoded);
     };
-  }
-  catch {
-    alert("Uh oh, an error occurred. Please try again. Did you select a .wav file less than a minute long?");
+  } catch {
+    alert(
+      'Uh oh, an error occurred. Please try again. Did you select a .wav file less than a minute long?'
+    );
   }
 }
 // styling
 let fileUploadStyles = {
-  display: "block",
-  margin: "auto"
+  display: 'block',
+  margin: 'auto'
 };
 let transcriptStyles = {
-  backgroundColor: "lightgray",
-  width: "70%",
-  display: "inline-block",
-  float: "right",
-  marginRight: "1em",
-  padding: "1em",
+  backgroundColor: 'lightgray',
+  width: '70%',
+  display: 'inline-block',
+  float: 'right',
+  marginRight: '1em',
+  padding: '1em'
 };
 
 // TODO remove CopyButton to own component and lift state to EditorWorkspace
 function copyAll() {
-  document.getElementById("transcript").select();
-  document.execCommand("copy");
-  let tooltip = document.getElementById("copyTooltip");
-  tooltip.innerHTML = "Copied to clipboard"
+  document.getElementById('transcript').select();
+  document.execCommand('copy');
+  let tooltip = document.getElementById('copyTooltip');
+  tooltip.innerHTML = 'Copied to clipboard';
 }
 
 function outFunc() {
-  let tooltip = document.getElementById("copyTooltip");
-  tooltip.innerHTML = "Copy all to clipboard";
+  let tooltip = document.getElementById('copyTooltip');
+  tooltip.innerHTML = 'Copy all to clipboard';
 }
 // end of CopyButton
 
@@ -60,19 +59,24 @@ class TranscriptionBody extends Component {
       // audioWasEncoded: "false",
       // base64Data: ""
       loading: false,
-      transcriptText: "Your transcript will appear here"
+      transcriptText: 'Your transcript will appear here',
+      editing: false
     };
-    this.getTranscript = this.getTranscript.bind(this);
+  }
+  handleInputChange(e) {
+    this.setState({
+      title: e.target.value
+    });
   }
   // Send encoded audio data to Google API when button clicked
-  getTranscript() {
+  getTranscript = () => {
     // add Google Cloud project API key to src/apikey.js
     this.setState({ loading: true });
-    let url = "https://speech.googleapis.com/v1/speech:recognize?key=" + apikey;
+    let url = 'https://speech.googleapis.com/v1/speech:recognize?key=' + apikey;
     let config = {
-      encoding: "LINEAR16",
+      encoding: 'LINEAR16',
       sampleRateHertz: 16000,
-      languageCode: "en-US",
+      languageCode: 'en-US',
       enableAutomaticPunctuation: true
     };
     let audio = {
@@ -83,27 +87,32 @@ class TranscriptionBody extends Component {
       config: config
     };
     fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(requestBody)
     })
       .then(res => res.json())
       .then(response => {
         console.log(response);
         this.setState({ loading: false });
-        let newText = (response.results[0].alternatives[0].transcript);
-        this.setState({ transcriptText: newText })
+        let newText = response.results[0].alternatives[0].transcript;
+        this.setState({ transcriptText: newText });
       })
       .catch(error => {
-        console.error("Error: ", error);
-        let newText = "An error occurred. Please select another file.";
-        this.setState({transcriptText: newText})
-      })
-  }
+        console.error('Error: ', error);
+        let newText = 'An error occurred. Please select another file.';
+        this.setState({ transcriptText: newText });
+      });
+  };
 
+  editTranscript = () => {
+    this.setState({ editing: true });
+  };
   render() {
     return (
       <div style={transcriptStyles} className="with-shadow">
-        <h4>Please select an audio file (.wav preferred) under 1 min in length:</h4>
+        <h4>
+          Please select an audio file (.wav preferred) under 1 min in length:
+        </h4>
         <input
           type="file"
           id="audioUpload"
@@ -112,18 +121,44 @@ class TranscriptionBody extends Component {
             encodeAudio(event);
           }}
         />
-        <button className="green-button buttonStyles" onClick={this.getTranscript}>
+        <button
+          className="green-button buttonStyles"
+          onClick={this.getTranscript}
+        >
           Transcribe
+        </button>
+        <button
+          className="blue-button buttonStyles"
+          onClick={this.editTranscript}
+        >
+          Edit
         </button>
         <div className="paper">
           {/* <input  id="transcript"type="text" placeholder={this.state.transcriptText}></input> */}
-          {this.state.loading ? <LoadingIcon /> :  <p id="transcript" cols="125">{this.state.transcriptText}</p>}
-         
-          <br/>
-          <div className="tooltip">
+          <input
+            type="text"
+            value={this.state.transcriptText}
+            onChange={e => this.handleInputChange(e)}
+          />
+          <textarea
+            onChange={e => this.handleInputChange(e)}
+            value={this.state.transcriptText}
+          />
+          {/* {this.state.loading ? <LoadingIcon /> :  <p id="transcript" cols="125">{this.state.transcriptText}</p>} */}
+          {/* {this.state.editing ? <textarea cols="125">Editing yay</textarea> : <p>This is not editing!</p>} */}
+          <br />
+          {/* <div className="tooltip">
             <button onClick={copyAll} onMouseOut={outFunc}>Copy All</button>
             <span className="tooltiptext" id="copyTooltip"></span>
-          </div>
+          </div> */}
+          {this.state.editing ? (
+            <button
+              className="red-button buttonStyles"
+              onClick={this.editTranscript}
+            >
+              Save
+            </button>
+          ) : null}
           {/* {this.state.loading ? <LoadingIcon /> : <p id="transcript">{this.state.transcriptText}</p>} */}
           {/* <CopyButton /> */}
         </div>

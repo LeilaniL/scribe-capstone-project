@@ -19,8 +19,8 @@ This web app will use speech-to-text to transcribe audio from recorded lectures 
 | -------------------------- | ------------------------------------------- | ----------------------------------------------- | --- | --- |
 |                            |                                             | Call STT API and console.log transcript results |     |     |
 |                            |                                             | User can upload file to transcribe              |     |     |
-|                            | Call STT API and display transcript to user |                                                 |     |     |
-| Editable transcript        |                                             |                                                 |     |     |
+|                            |                                             |  Call STT API and display transcript to user    |     |     |
+|                            |   Editable transcript                       |                                                 |     |     |
 | Highlight text             |                                             |                                                 |     |
 | Comment on text            |                                             |                                                 |     |
 | Download/export transcript |                                             |                                                 |     |
