@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import apikey from '../../apikey';
+// import apikey from '../../apikey';
 import LoadingIcon from '../LoadingIcon';
 import CopyButton from './CopyButton';
 import './TranscriptionBody.css';
+import { apikey } from '../../apikey.js';
 
 // Encode audio file when user selects one
 let encoded = null;
@@ -59,13 +60,16 @@ class TranscriptionBody extends Component {
       // audioWasEncoded: "false",
       // base64Data: ""
       loading: false,
-      transcriptText: 'Your transcript will appear here',
+      value: 'Your transcript will appear here',
       editing: false
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
+
   handleInputChange(e) {
+    // debugger;
     this.setState({
-      title: e.target.value
+      value: e.target.value
     });
   }
   // Send encoded audio data to Google API when button clicked
@@ -137,14 +141,14 @@ class TranscriptionBody extends Component {
           {/* <input  id="transcript"type="text" placeholder={this.state.transcriptText}></input> */}
           <input
             type="text"
-            value={this.state.transcriptText}
-            onChange={e => this.handleInputChange(e)}
+            value={this.state.value}
+            onChange={this.handleInputChange}
           />
           <textarea
-            onChange={e => this.handleInputChange(e)}
-            value={this.state.transcriptText}
+            onChange={this.handleInputChange}
+            value={this.state.value}
           />
-          {/* {this.state.loading ? <LoadingIcon /> :  <p id="transcript" cols="125">{this.state.transcriptText}</p>} */}
+          {this.state.loading ? <LoadingIcon /> : <p id="transcript" cols="125">{this.state.value}</p>}
           {/* {this.state.editing ? <textarea cols="125">Editing yay</textarea> : <p>This is not editing!</p>} */}
           <br />
           {/* <div className="tooltip">
