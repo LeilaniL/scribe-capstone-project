@@ -76,15 +76,10 @@ class TranscriptionBody extends Component {
           Edit
         </button>
         <div className="paper">
-          {/* <input  id="transcript"type="text" placeholder={this.state.transcriptText}></input> */}
-          <input
-            type="text"
-            value={this.state.value}
-            onChange={this.handleInputChange}
-          />
           <textarea
             onChange={this.handleInputChange}
             value={this.state.value}
+            style={fileUploadStyles}
           />
           {this.state.loading ? (
             <LoadingIcon />
