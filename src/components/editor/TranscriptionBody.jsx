@@ -1,55 +1,34 @@
-import React, { Component } from 'react';
-// import apikey from '../../apikey';
-import LoadingIcon from '../LoadingIcon';
-import CopyButton from './CopyButton';
-import './TranscriptionBody.css';
-import { apikey } from '../../apikey.js';
+import React, { Component } from "react";
+import LoadingIcon from "../LoadingIcon";
+import CopyButton from "./CopyButton";
+import "./TranscriptionBody.css";
+import { encodeAudio, getTranscript } from "../../TranscriptService";
 
-// Encode audio file when user selects one
-let encoded = null;
-function encodeAudio(event) {
-  // grab user-selected file
-  let reader = new FileReader();
-  try {
-    const file = event.target.files[0];
-    // convert file to string including base64
-    reader.readAsDataURL(file);
-    reader.onload = file => {
-      // separate base64 from result string
-      encoded = reader.result.split(',')[1];
-      console.log(encoded);
-    };
-  } catch {
-    alert(
-      'Uh oh, an error occurred. Please try again. Did you select a .wav file less than a minute long?'
-    );
-  }
-}
 // styling
 let fileUploadStyles = {
-  display: 'block',
-  margin: 'auto'
+  display: "block",
+  margin: "auto",
 };
 let transcriptStyles = {
-  backgroundColor: 'lightgray',
-  width: '70%',
-  display: 'inline-block',
-  float: 'right',
-  marginRight: '1em',
-  padding: '1em'
+  backgroundColor: "lightgray",
+  width: "70%",
+  display: "inline-block",
+  float: "right",
+  marginRight: "1em",
+  padding: "1em",
 };
 
 // TODO remove CopyButton to own component and lift state to EditorWorkspace
 function copyAll() {
-  document.getElementById('transcript').select();
-  document.execCommand('copy');
-  let tooltip = document.getElementById('copyTooltip');
-  tooltip.innerHTML = 'Copied to clipboard';
+  document.getElementById("transcript").select();
+  document.execCommand("copy");
+  let tooltip = document.getElementById("copyTooltip");
+  tooltip.innerHTML = "Copied to clipboard";
 }
 
 function outFunc() {
-  let tooltip = document.getElementById('copyTooltip');
-  tooltip.innerHTML = 'Copy all to clipboard';
+  let tooltip = document.getElementById("copyTooltip");
+  tooltip.innerHTML = "Copy all to clipboard";
 }
 // end of CopyButton
 
@@ -57,56 +36,18 @@ class TranscriptionBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // audioWasEncoded: "false",
-      // base64Data: ""
       loading: false,
-      value: 'Your transcript will appear here',
-      editing: false
+      value: "Your transcript will appear here",
+      editing: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange(e) {
-    // debugger;
     this.setState({
-      value: e.target.value
+      value: e.target.value,
     });
   }
-  // Send encoded audio data to Google API when button clicked
-  getTranscript = () => {
-    // add Google Cloud project API key to src/apikey.js
-    this.setState({ loading: true });
-    let url = 'https://speech.googleapis.com/v1/speech:recognize?key=' + apikey;
-    let config = {
-      encoding: 'LINEAR16',
-      sampleRateHertz: 16000,
-      languageCode: 'en-US',
-      enableAutomaticPunctuation: true
-    };
-    let audio = {
-      content: encoded
-    };
-    let requestBody = {
-      audio: audio,
-      config: config
-    };
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(requestBody)
-    })
-      .then(res => res.json())
-      .then(response => {
-        console.log(response);
-        this.setState({ loading: false });
-        let newText = response.results[0].alternatives[0].transcript;
-        this.setState({ transcriptText: newText });
-      })
-      .catch(error => {
-        console.error('Error: ', error);
-        let newText = 'An error occurred. Please select another file.';
-        this.setState({ transcriptText: newText });
-      });
-  };
 
   editTranscript = () => {
     this.setState({ editing: true });
@@ -121,14 +62,11 @@ class TranscriptionBody extends Component {
           type="file"
           id="audioUpload"
           style={fileUploadStyles}
-          onChange={event => {
+          onChange={(event) => {
             encodeAudio(event);
           }}
         />
-        <button
-          className="green-button buttonStyles"
-          onClick={this.getTranscript}
-        >
+        <button className="green-button buttonStyles" onClick={getTranscript}>
           Transcribe
         </button>
         <button
@@ -148,13 +86,14 @@ class TranscriptionBody extends Component {
             onChange={this.handleInputChange}
             value={this.state.value}
           />
-          {this.state.loading ? <LoadingIcon /> : <p id="transcript" cols="125">{this.state.value}</p>}
-          {/* {this.state.editing ? <textarea cols="125">Editing yay</textarea> : <p>This is not editing!</p>} */}
+          {this.state.loading ? (
+            <LoadingIcon />
+          ) : (
+            <p id="transcript" cols="125">
+              {this.state.value}
+            </p>
+          )}
           <br />
-          {/* <div className="tooltip">
-            <button onClick={copyAll} onMouseOut={outFunc}>Copy All</button>
-            <span className="tooltiptext" id="copyTooltip"></span>
-          </div> */}
           {this.state.editing ? (
             <button
               className="red-button buttonStyles"
