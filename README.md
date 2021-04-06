@@ -56,5 +56,8 @@ This web app will use speech-to-text to transcribe audio from recorded lectures 
 - Commenting mode turned on
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+----
+
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) Copyright © 2021 Leilani Leach
 
